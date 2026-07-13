@@ -2,31 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <title>Match Animal To Sound</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
 html,body{
 width:100%;
 height:100%;
 overflow:hidden;
-font-family:Arial, sans-serif;
 }
 
 body{
-background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200')
-center center/cover no-repeat;
+background:url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80");
+background-size:cover;
+background-position:center;
 }
 
 .screen{
+position:absolute;
 width:100%;
-height:100vh;
+height:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -37,39 +40,48 @@ align-items:center;
 display:none;
 }
 
+/* LOGO SCREEN */
+
 #logoScreen{
 background:white;
 }
 
 #logo{
-width:300px;
+width:320px;
 max-width:80%;
 }
 
+/* INSTRUCTIONS */
+
 #instructionScreen{
-background:rgba(255,255,255,0.9);
+background:rgba(255,255,255,0.95);
 padding:20px;
 text-align:center;
 }
 
 #instructionScreen h1{
-color:#0a7c3f;
+color:#0a7d3b;
 margin-bottom:20px;
+font-size:36px;
 }
 
 #instructionScreen p{
 font-size:24px;
-margin-bottom:15px;
+margin-bottom:20px;
+line-height:1.5;
 }
 
 #startBtn{
-padding:15px 30px;
-font-size:22px;
+padding:15px 35px;
+font-size:24px;
 border:none;
-border-radius:12px;
+border-radius:15px;
 background:#28a745;
 color:white;
+cursor:pointer;
 }
+
+/* GAME */
 
 #gameScreen{
 padding:10px;
@@ -81,46 +93,68 @@ height:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:10px;
 }
 
 .column{
-width:48%;
+width:50%;
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:8px;
+justify-content:center;
 }
+
+/* ANIMALS */
 
 .animalCard{
 background:white;
 border-radius:15px;
-padding:8px;
+padding:5px;
+cursor:pointer;
 border:4px solid transparent;
 }
 
 .animalCard img{
 width:100%;
-height:120px;
+height:150px;
 object-fit:cover;
-border-radius:15px;
+display:block;
+border-radius:12px;
 }
 
-.soundCard{
-background:#fff8c4;
-padding:18px;
-border-radius:20px;
-font-size:24px;
-font-weight:bold;
-text-align:center;
-cursor:pointer;
-}
-
-.selected{
-border:5px solid #ff9900 !important;
+.selectedAnimal{
+border:4px solid orange;
 }
 
 .correct{
-border:5px solid green !important;
+border:4px solid green;
+opacity:0.4;
+pointer-events:none;
 }
+
+/* SOUNDS */
+
+.soundCard{
+background:#fff5b1;
+padding:18px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+border-radius:15px;
+cursor:pointer;
+border:4px solid transparent;
+}
+
+.selected{
+border:4px solid orange;
+}
+
+.done{
+opacity:0.4;
+pointer-events:none;
+}
+
+/* MESSAGE */
 
 #message{
 position:absolute;
@@ -130,161 +164,199 @@ transform:translateX(-50%);
 font-size:40px;
 font-weight:bold;
 color:white;
-text-shadow:2px 2px 5px black;
+text-shadow:2px 2px 4px black;
+z-index:999;
 }
 
+/* FINAL SCREEN */
+
 #finalScreen{
-background:rgba(255,255,255,0.95);
+background:rgba(255,255,255,0.96);
 }
 
 #scoreText{
-font-size:50px;
-color:#0a7c3f;
-margin-bottom:20px;
+font-size:48px;
+color:green;
+margin-bottom:25px;
 }
 
 #playAgain{
-padding:15px 30px;
-font-size:25px;
-background:#ff6600;
-color:white;
+padding:15px 35px;
+font-size:24px;
 border:none;
 border-radius:15px;
+background:#ff6600;
+color:white;
+cursor:pointer;
 }
+
+/* MOBILE */
 
 @media(max-width:768px){
 
-.gameContainer{
-flex-direction:row;
-}
-
 .animalCard img{
-height:90px;
+height:95px;
 }
 
 .soundCard{
-font-size:18px;
+font-size:16px;
 padding:12px;
 }
+
+#message{
+font-size:28px;
 }
+
+}
+
 </style>
 </head>
 <body>
 
 <!-- LOGO SCREEN -->
-<div id="logoScreen" class="screen">
-/innovine"
-alt="Innovine">
-</div>
 
-<!-- INSTRUCTION SCREEN -->
+<div id="logoScreen" class="screen">
+
+<img
+id="logo"
+src="assets/innovineNSTRUCTION SCREEN -->
+
 <div id="instructionScreen" class="screen hidden">
+
 <h1>Match The Animal To Its Sound</h1>
 
 <p>
-Click on a sound card and then click on the matching animal picture.
+Click on a sound card.<br>
+Listen carefully.<br>
+Then click the matching animal picture.
 </p>
 
-<button id="startBtn">Start Game</button>
+<button id="startBtn">
+Start Game
+</button>
+
 </div>
 
 <!-- GAME SCREEN -->
+
 <div id="gameScreen" class="screen hidden">
 
 <div id="message"></div>
 
 <div class="gameContainer">
 
-<div id="animalColumn" class="column"></div>
+<div
+id="animalColumn"
+class="column">
+</div>
 
-<div id="soundColumn" class="column"></div>
-
+<div
+id="soundColumn"
+class="column">
 </div>
 
 </div>
 
-<!-- FINAL SCREEN -->
+</div>
+
+<!-- FINAL -->
+
 <div id="finalScreen" class="screen hidden">
+
 <h1 id="scoreText"></h1>
-<button id="playAgain">Play Again</button>
+
+<button id="playAgain">
+Play Again
+</button>
+
 </div>
 
 <script>
 
-const animals = [
+/* ANIMAL DATA */
+
+const animals=[
 
 {
 name:"cow",
 img:"assets/cow.jpg",
-sound:"moo",
+sound:"MOO",
 audio:"assets/moo.mp3.mp3"
 },
 
 {
 name:"dog",
 img:"assets/dog.jpg",
-sound:"woof",
+sound:"WOOF",
 audio:"assets/woof.mp3.mp3"
 },
 
 {
 name:"cat",
 img:"assets/cat.jpg",
-sound:"meow",
+sound:"MEOW",
 audio:"assets/meow.mp3.mp3"
 },
 
 {
 name:"horse",
 img:"assets/horse.jpg",
-sound:"neigh",
+sound:"NEIGH",
 audio:"assets/neigh.mp3.mp3"
 },
 
 {
 name:"pig",
 img:"assets/pig.jpg",
-sound:"oink",
+sound:"OINK",
 audio:"assets/oink.mp3.mp3"
 },
 
 {
 name:"lion",
 img:"assets/lion.jpg",
-sound:"roar",
+sound:"ROAR",
 audio:"assets/roar.mp3.mp3"
 },
 
 {
 name:"snake",
 img:"assets/snake.jpg",
-sound:"hiss",
+sound:"HISS",
 audio:"assets/hiss.mp3.mp3"
 },
 
 {
 name:"tiger",
 img:"assets/tiger.jpg",
-sound:"growl",
+sound:"GROWL",
 audio:"assets/growl.mp3.mp3"
 }
 
 ];
 
-const correctAudio =
-new Audio("assets/correct.mp3.mp3");
-
-const wrongAudio =
-new Audio("assets/wrong.mp3.mp3");
+/* PRELOAD */
 
 animals.forEach(a=>{
-new Audio(a.audio).load();
+const img=new Image();
+img.src=a.img;
 });
 
-let selectedSound = null;
-let score = 0;
+const correctAudio=
+new Audio("assets/correct.mp3.mp3");
 
-const msg = document.getElementById("message");
+const wrongAudio=
+new Audio("assets/wrong.mp3.mp3");
+
+/* VARIABLES */
+
+let selectedSound=null;
+let score=0;
+
+const msg=
+document.getElementById("message");
+
+/* SPEECH */
 
 function speak(text){
 
@@ -292,15 +364,18 @@ if("speechSynthesis" in window){
 
 speechSynthesis.cancel();
 
-const utter =
+const speech=
 new SpeechSynthesisUtterance(text);
 
-utter.rate = 0.9;
-utter.pitch = 1.1;
+speech.rate=0.9;
+speech.pitch=1.1;
 
-speechSynthesis.speak(utter);
+speechSynthesis.speak(speech);
 }
+
 }
+
+/* LOGO SCREEN */
 
 setTimeout(()=>{
 
@@ -313,22 +388,16 @@ document
 .classList.remove("hidden");
 
 speak(
-"Click on each sound card and then click on the matching animal picture."
+"Click the sound card and then click the matching animal picture."
 );
 
 },5000);
 
+/* START */
+
 document
 .getElementById("startBtn")
-.addEventListener("click",startGame);
-
-function shuffle(arr){
-
-return arr.sort(()=>Math.random()-0.5);
-
-}
-
-function startGame(){
+.addEventListener("click",()=>{
 
 document
 .getElementById("instructionScreen")
@@ -341,77 +410,125 @@ document
 loadGame();
 
 speak(
-"Click a sound card. Listen carefully. Then tap the matching animal."
+"Find the matching animal for each sound."
+);
+
+});
+
+/* SHUFFLE */
+
+function shuffle(array){
+
+return array.sort(
+()=>Math.random()-0.5
 );
 
 }
 
+/* LOAD GAME */
+
 function loadGame(){
 
-const animalCol =
+const animalColumn=
 document.getElementById("animalColumn");
 
-const soundCol =
+const soundColumn=
 document.getElementById("soundColumn");
 
-animalCol.innerHTML="";
-soundCol.innerHTML="";
+animalColumn.innerHTML="";
+soundColumn.innerHTML="";
 
 animals.forEach(animal=>{
 
-let div=document.createElement("div");
+const card=
+document.createElement("div");
 
-div.className="animalCard";
+card.className="animalCard";
 
-div.dataset.animal=animal.name;
+card.dataset.animal=
+animal.name;
 
-div.innerHTML=
+card.innerHTML=
 `${animal.img}`;
-
-div.onclick=()=>{
-checkAnswer(animal.name,div);
-};
-
-animalCol.appendChild(div);
-
-});
-
-let shuffled =
-shuffle([...animals]);
-
-shuffled.forEach(item=>{
-
-let card=document.createElement("div");
-
-card.className="soundCard";
-
-card.textContent="🔊 Play Sound";
-
-card.dataset.animal=item.name;
 
 card.onclick=()=>{
 
-document
-.querySelectorAll(".soundCard")
-.forEach(x=>x.classList.remove("selected"));
-
-card.classList.add("selected");
-
-selectedSound=item.name;
-
-new Audio(item.audio).play();
+checkAnswer(
+animal.name,
+card
+);
 
 };
 
-soundCol.appendChild(card);
+animalColumn.appendChild(card);
+
+});
+
+const shuffled=
+shuffle([...animals]);
+
+shuffled.forEach(animal=>{
+
+const soundCard=
+document.createElement("div");
+
+soundCard.className=
+"soundCard";
+
+soundCard.dataset.animal=
+animal.name;
+
+soundCard.innerHTML=
+`🔊 ${animal.sound}`;
+
+soundCard.onclick=()=>{
+
+document
+.querySelectorAll(".soundCard")
+.forEach(c=>
+c.classList.remove("selected")
+);
+
+soundCard.classList.add(
+"selected"
+);
+
+selectedSound=
+animal.name;
+
+new Audio(
+animal.audio
+).play();
+
+};
+
+soundColumn.appendChild(
+soundCard
+);
 
 });
 
 }
 
-function checkAnswer(animalName,card){
+/* CHECK ANSWER */
 
-if(!selectedSound) return;
+function checkAnswer(
+animalName,
+animalCard
+){
+
+if(!selectedSound){
+
+msg.innerHTML=
+"Select a Sound First";
+
+setTimeout(()=>{
+msg.innerHTML="";
+},1000);
+
+return;
+
+}
 
 if(selectedSound===animalName){
 
@@ -419,54 +536,66 @@ score++;
 
 correctAudio.play();
 
-card.classList.add("correct");
+msg.innerHTML=
+"⭐⭐⭐ 👍";
 
-msg.innerHTML="⭐⭐⭐ 👍";
-
-setTimeout(()=>{
-msg.innerHTML="";
-removeMatched(animalName);
-},1000);
-
-}else{
-
-wrongAudio.play();
-
-msg.innerHTML="❌ Try Again";
-
-setTimeout(()=>{
-msg.innerHTML="";
-},1500);
-
-}
-}
-
-function removeMatched(name){
-
-const animal =
+const soundCard=
 document.querySelector(
-`.animalCard[data-animal="${name}"]`
+`.soundCard[data-animal="${animalName}"]`
 );
 
-const sound =
-document.querySelector(
-`.soundCard[data-animal="${name}"]`
+animalCard.classList.add(
+"correct"
 );
 
-if(animal) animal.remove();
-if(sound) sound.remove();
+soundCard.classList.add(
+"done"
+);
+
+setTimeout(()=>{
+
+animalCard.remove();
+soundCard.remove();
+
+msg.innerHTML="";
 
 selectedSound=null;
 
-if(
-document.querySelectorAll(".animalCard")
-.length===0
-){
-showResult();
+checkFinished();
+
+},1200);
+
 }
+else{
+
+wrongAudio.play();
+
+msg.innerHTML=
+"❌ TRY AGAIN";
+
+speak(
+"Try again"
+);
+
+setTimeout(()=>{
+
+msg.innerHTML="";
+
+},1500);
+
 }
 
-function showResult(){
+}
+
+/* FINISH */
+
+function checkFinished(){
+
+if(
+document.querySelectorAll(
+".animalCard"
+).length===0
+){
 
 document
 .getElementById("gameScreen")
@@ -479,15 +608,21 @@ document
 document
 .getElementById("scoreText")
 .innerHTML=
-`🎉 Score: ${score}/8`;
+`🎉 Score ${score} / 8`;
 
 speak(
 "Congratulations. Your score is "
-+ score +
-" out of 8."
++
+score
++
+" out of 8"
 );
 
 }
+
+}
+
+/* PLAY AGAIN */
 
 document
 .getElementById("playAgain")
